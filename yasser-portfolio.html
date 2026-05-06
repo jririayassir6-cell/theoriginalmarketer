@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Yasser — Digital Marketing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --card: #161616;
+      --orange: #ff5c1a;
+      --orange-dim: rgba(255,92,26,0.12);
+      --white: #f5f0eb;
+      --muted: #888;
+      --border: rgba(255,255,255,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: .4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 48px;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px; letter-spacing: 3px;
+      color: var(--orange);
+    }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 13px; letter-spacing: 1px; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 120px 48px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg-text {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(120px, 20vw, 280px);
+      color: rgba(255,92,26,0.04);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: 8px;
+    }
+    .hero-content { position: relative; max-width: 820px; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--orange-dim);
+      border: 1px solid rgba(255,92,26,0.25);
+      color: var(--orange);
+      padding: 6px 16px; border-radius: 99px;
+      font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 32px;
+      animation: fadeUp .6s ease both;
+    }
+    .hero-tag::before { content:''; width:6px; height:6px; background:var(--orange); border-radius:50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(56px, 9vw, 110px);
+      line-height: .95;
+      letter-spacing: 2px;
+      animation: fadeUp .6s .1s ease both;
+    }
+    h1 span { color: var(--orange); }
+
+    .hero-sub {
+      margin-top: 28px;
+      font-size: 17px; color: var(--muted);
+      max-width: 500px; font-weight: 300;
+      animation: fadeUp .6s .2s ease both;
+    }
+
+    .hero-cta {
+      margin-top: 48px; display: flex; gap: 16px; flex-wrap: wrap;
+      animation: fadeUp .6s .3s ease both;
+    }
+    .btn {
+      padding: 14px 32px; border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase;
+      text-decoration: none; cursor: pointer;
+      transition: all .2s;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--orange); color: #fff;
+    }
+    .btn-primary:hover { background: #ff7a40; transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--white);
+    }
+    .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+
+    .hero-stats {
+      margin-top: 80px; display: flex; gap: 48px; flex-wrap: wrap;
+      animation: fadeUp .6s .4s ease both;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 44px; color: var(--orange); line-height:1;
+    }
+    .stat-label { font-size: 12px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 48px; }
+    .section-label {
+      font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 16px;
+    }
+    h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 5vw, 60px);
+      letter-spacing: 2px; line-height: 1;
+      margin-bottom: 48px;
+    }
+
+    /* ── SERVICES ── */
+    .services { background: var(--surface); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2px;
+    }
+    .service-card {
+      background: var(--card);
+      padding: 40px 32px;
+      position: relative; overflow: hidden;
+      transition: background .2s;
+    }
+    .service-card:hover { background: #1c1c1c; }
+    .service-card::after {
+      content:''; position:absolute; bottom:0; left:0; right:0;
+      height: 2px; background: var(--orange);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .3s ease;
+    }
+    .service-card:hover::after { transform: scaleX(1); }
+    .service-icon {
+      font-size: 28px; margin-bottom: 20px;
+    }
+    .service-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px; letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    .service-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* ── NICHE ── */
+    .niche-box {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 48px;
+      display: flex; gap: 40px; align-items: center;
+      flex-wrap: wrap;
+      background: linear-gradient(135deg, var(--card), rgba(255,92,26,0.04));
+      position: relative; overflow: hidden;
+    }
+    .niche-box::before {
+      content: '🏋️';
+      position: absolute; right: 40px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 120px; opacity: .07;
+    }
+    .niche-text { flex: 1; min-width: 260px; }
+    .niche-text p { color: var(--muted); font-size: 15px; margin-top: 16px; max-width: 480px; }
+    .niche-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+    .tag {
+      padding: 6px 14px; border-radius: 99px;
+      border: 1px solid var(--border);
+      font-size: 12px; color: var(--muted);
+      letter-spacing: .5px;
+    }
+
+    /* ── WHY ME ── */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+    .why-card {
+      padding: 32px; border: 1px solid var(--border);
+      border-radius: 6px; transition: border-color .2s, transform .2s;
+    }
+    .why-card:hover { border-color: var(--orange); transform: translateY(-4px); }
+    .why-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px; color: var(--orange-dim);
+      -webkit-text-stroke: 1px var(--orange);
+      line-height: 1; margin-bottom: 16px;
+    }
+    .why-title { font-weight: 600; margin-bottom: 8px; }
+    .why-desc { font-size: 14px; color: var(--muted); }
+
+    /* ── PROCESS ── */
+    .process { background: var(--surface); }
+    .process-steps { display: flex; flex-direction: column; gap: 0; }
+    .process-step {
+      display: flex; gap: 32px; align-items: flex-start;
+      padding: 36px 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .step-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 56px; color: rgba(255,92,26,0.15);
+      -webkit-text-stroke: 1px rgba(255,92,26,0.4);
+      line-height: 1; min-width: 70px;
+    }
+    .step-content h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .step-content p { font-size: 14px; color: var(--muted); }
+
+    /* ── CONTACT ── */
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+    .contact-info p { color: var(--muted); font-size: 15px; margin-bottom: 32px; }
+    .contact-detail {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 16px; font-size: 14px;
+    }
+    .contact-detail .icon {
+      width: 36px; height: 36px;
+      background: var(--orange-dim);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-field {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 14px 18px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color .2s;
+      resize: none;
+    }
+    .form-field::placeholder { color: var(--muted); }
+    .form-field:focus { border-color: var(--orange); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 40px 48px;
+      border-top: 1px solid var(--border);
+      font-size: 13px; color: var(--muted);
+    }
+    footer span { color: var(--orange); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 100px 24px 60px; }
+      section { padding: 70px 24px; }
+      .contact-wrapper { grid-template-columns: 1fr; }
+      .niche-box { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">YASSER.MKT</div>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#niche">Niche</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-text">MARKETING</div>
+    <div class="hero-content">
+      <div class="hero-tag">Disponible pour de nouveaux clients</div>
+      <h1>Yasser<br/><span>Digital</span><br/>Marketer</h1>
+      <p class="hero-sub">
+        Étudiant en Commerce Marketing à l'OFPPT de Meknès. Marketing digital, vente, création de contenu — j'aide les entreprises à grandir en ligne.
+      </p>
+      <div class="hero-cta">
+        <a href="https://wa.me/212694515725" target="_blank" class="btn btn-primary">Travailler avec moi</a>
+        <a href="#services" class="btn btn-outline">Voir mes services</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Dédié à vos résultats</div>
+        </div>
+        <div>
+          <div class="stat-num">2 SEM</div>
+          <div class="stat-label">Essai gratuit offert</div>
+        </div>
+        <div>
+          <div class="stat-num">MKN</div>
+          <div class="stat-label">Basé à Meknès</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="services">
+    <div class="section-label">Ce que je fais</div>
+    <h2>Mes Services</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">📱</div>
+        <div class="service-title">Gestion Réseaux Sociaux</div>
+        <p class="service-desc">Gestion complète de vos pages Instagram et Facebook — posts, stories, reels — avec une stratégie claire pour attirer des abonnés et des clients.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🎨</div>
+        <div class="service-title">Création de Contenu</div>
+        <p class="service-desc">Visuels professionnels, vidéos courtes et reels engageants. Expérience YouTube dans la création de contenu vidéo qui capte et retient l'attention.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📣</div>
+        <div class="service-title">Publicités Facebook & Instagram</div>
+        <p class="service-desc">Campagnes publicitaires ciblées pour attirer de nouveaux clients dans votre zone géographique à Meknès et alentours.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🤝</div>
+        <div class="service-title">Conseil en Vente & Commerce</div>
+        <p class="service-desc">Expérience terrain en vente directe, y compris la revente de produits tech (iPhone et autres). Je comprends les cycles de vente et la psychologie du client.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="niche">
+    <div class="section-label">Mes domaines</div>
+    <h2>Fitness, Tech & Commerce</h2>
+    <div class="niche-box">
+      <div class="niche-text">
+        <p>
+          Pratiquant de musculation, vendeur de produits tech (iPhone), et créateur de contenu YouTube — j'ai une vraie expérience dans plusieurs univers. Je comprends vos clients parce que j'en suis un. Que vous soyez une salle de sport, un revendeur tech, ou un commerce local, je parle votre langage.
+        </p>
+        <div class="niche-tags">
+          <span class="tag">Salles de sport</span>
+          <span class="tag">Tech & iPhone</span>
+          <span class="tag">E-commerce</span>
+          <span class="tag">Contenu YouTube</span>
+          <span class="tag">Commerce local</span>
+          <span class="tag">Fitness & Bien-être</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY ME -->
+  <section>
+    <div class="section-label">Pourquoi moi</div>
+    <h2>Ce qui me différencie</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-number">01</div>
+        <div class="why-title">Expérience terrain réelle</div>
+        <p class="why-desc">J'ai vendu des iPhones, créé du contenu YouTube et pratiqué la musculation. Je ne fais pas que du marketing théorique — j'ai vécu la vente.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-number">02</div>
+        <div class="why-title">Formation marketing solide</div>
+        <p class="why-desc">2ème année Commerce Marketing à l'OFPPT — bases en stratégie, communication et comportement du consommateur.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-number">03</div>
+        <div class="why-title">Créateur de contenu</div>
+        <p class="why-desc">Expérience YouTube dans la création et publication de vidéos. Je sais produire du contenu qui engage et qui convertit.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-number">04</div>
+        <div class="why-title">Essai sans risque</div>
+        <p class="why-desc">Je commence par 2 semaines gratuites. Vous voyez les résultats avant de vous engager — aucun risque pour vous.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process" class="process">
+    <div class="section-label">Comment ça marche</div>
+    <h2>Mon Process</h2>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>Audit gratuit de votre présence en ligne</h3>
+          <p>J'analyse vos réseaux sociaux actuels, vos concurrents et votre audience cible pour identifier les opportunités.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>Stratégie sur mesure</h3>
+          <p>Je crée un plan de contenu adapté à votre salle, votre image et vos objectifs — plus d'abonnés, plus d'inscriptions.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>2 semaines de test gratuit</h3>
+          <p>Je gère vos pages, crée du contenu et publie — vous observez les résultats sans aucun engagement financier.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h3>Collaboration & croissance continue</h3>
+          <p>Si vous êtes convaincu, on travaille ensemble sur le long terme avec un suivi mensuel et des résultats mesurables.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">Travailler ensemble</div>
+    <h2>Contactez-moi</h2>
+    <div class="contact-wrapper">
+      <div class="contact-info">
+        <p>Vous avez une entreprise à Meknès et vous voulez plus de visibilité ou booster vos ventes ? Écrivez-moi, je vous réponds sous 24h.</p>
+        <div class="contact-detail">
+          <div class="icon">📍</div>
+          <span>Meknès, Maroc</span>
+        </div>
+        <a href="https://wa.me/212694515725" target="_blank" style="text-decoration:none;color:inherit;">
+        <div class="contact-detail">
+          <div class="icon">💬</div>
+          <span>WhatsApp : 0694515725</span>
+        </div>
+        </a>
+        <a href="mailto:jririayassir6@gmail.com" style="text-decoration:none;color:inherit;">
+        <div class="contact-detail">
+          <div class="icon">✉️</div>
+          <span>jririayassir6@gmail.com</span>
+        </div>
+        </a>
+      </div>
+      <div class="contact-form">
+        <input class="form-field" type="text" placeholder="Votre nom" />
+        <input class="form-field" type="text" placeholder="Votre entreprise" />
+        <input class="form-field" type="email" placeholder="Votre email ou WhatsApp" />
+        <textarea class="form-field" rows="5" placeholder="Parlez-moi de votre projet..."></textarea>
+        <a href="https://wa.me/212694515725" target="_blank" class="btn btn-primary" style="align-self:flex-start;">Envoyer via WhatsApp →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 <span>Yasser</span> — Digital Marketing · Meknès, Maroc</p>
+  </footer>
+
+</body>
+</html>
